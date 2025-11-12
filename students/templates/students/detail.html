@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ student.first_name }} {{ student.last_name }}</title>
+    <link rel="stylesheet" href="{% static 'students/css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef3ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0 20px;
+        }
+
+        .student-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 60%;
+            margin: 0 auto 40px;
+            background: #f9f9ff;
+            border-radius: 15px;
+            padding: 20px 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .student-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .student-info p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .student-photo {
+            flex-shrink: 0;
+            margin-left: 40px;
+        }
+
+        .student-photo img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            box-shadow: 0 0 8px rgba(0,0,0,0.15);
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #2d6cdf;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #1e4fb0;
+        }
+
+        ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        li {
+            list-style-type: disc;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+
+    <div class="student-container">
+        <div class="student-info">
+            <p><strong>Возраст:</strong> {{ student.age }}</p>
+            <p><strong>Группа:</strong> {{ student.group.name }}</p>
+
+            <p><strong>Клубы:</strong></p>
+            <ul>
+                {% for club in student.clubs.all %}
+                    <li>{{ club.name }}</li>
+                {% empty %}
+                    <li>Не состоит ни в одном клубе</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="student-photo">
+            {% if student.photo %}
+                <img src="{{ student.photo.url }}" alt="Фото студента">
+            {% else %}
+                <p><em>Фото отсутствует</em></p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="{% url 'edit_student' student.id %}"><button>Редактировать</button></a>
+        <a href="{% url 'student_list' %}"><button>Назад к списку</button></a>
+    </div>
+</body>
+</html>
+
