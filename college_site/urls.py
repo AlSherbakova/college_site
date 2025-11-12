@@ -24,6 +24,7 @@ from django.contrib.auth import views as auth_views
 from students import views
 
 urlpatterns = [
+    path("", views.student_list, name="home"),
     path("admin/", admin.site.urls),
     path("register/", views.register, name="register"),
     path("login/", auth_views.LoginView.as_view(template_name="students/login.html"), name="login"),
